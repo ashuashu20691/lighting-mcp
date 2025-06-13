@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import Dict, Any, List
 import pandas as pd
 
-from simple_mcp_server import SimpleMCPServer
+from working_mcp_server import WorkingMCPServer
 from logger import get_logger
 
 # Configure logging
@@ -15,7 +15,7 @@ logger = get_logger(__name__)
 @st.cache_resource
 def init_mcp_server():
     """Initialize and cache the MCP server instance"""
-    server = MCPServer()
+    server = WorkingMCPServer()
     return server
 
 def main():

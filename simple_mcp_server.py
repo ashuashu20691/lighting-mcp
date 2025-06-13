@@ -235,7 +235,9 @@ class SimpleMCPServer:
                 'api', 'http', 'request', 'call', 'external', 'service', 'endpoint'
             ])
             
-            messages = [
+            from openai.types.chat import ChatCompletionMessageParam
+            
+            messages: List[ChatCompletionMessageParam] = [
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": query}
             ]
@@ -279,7 +281,10 @@ class SimpleMCPServer:
                 
                 # Update response with query results
                 if query_result.get("status") == "success":
-                    agent_response += f"\n\nQuery Results:\n{json.dumps(query_result, indent=2)}"
+                    if agent_response:
+                        agent_response += f"\n\nQuery Results:\n{json.dumps(query_result, indent=2)}"
+                    else:
+                        agent_response = f"Query Results:\n{json.dumps(query_result, indent=2)}"
             
             if needs_api and "example" in query_lower:
                 # Make example API call
