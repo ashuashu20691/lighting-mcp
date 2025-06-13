@@ -10,7 +10,7 @@ import aiohttp
 from typing import Dict, Any, List, Optional, Union
 from datetime import datetime
 from urllib.parse import urljoin, urlparse
-from langchain.tools import BaseTool
+from langchain_core.tools import BaseTool
 from pydantic import BaseModel, Field
 
 from logger import get_logger

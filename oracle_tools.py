@@ -8,7 +8,7 @@ import sqlite3
 import re
 from typing import Dict, Any, List, Optional, Union
 from datetime import datetime
-from langchain.tools import BaseTool
+from langchain_core.tools import BaseTool
 from pydantic import BaseModel, Field
 
 from database import DatabaseManager
@@ -50,7 +50,7 @@ class OracleQueryTool(BaseTool):
         super().__init__()
         self.db_manager = db_manager
     
-    def _run(self, sql_query: str, parameters: Optional[Dict[str, Any]] = None) -> str:
+    def _run(self, sql_query: str, parameters: Optional[Dict[str, Any]] = None, **kwargs) -> str:
         """Execute SQL query and return results in Oracle ADB format"""
         try:
             logger.info(f"Executing Oracle query: {sql_query[:100]}...")

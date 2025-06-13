@@ -9,12 +9,12 @@ import json
 from typing import Dict, Any, List, Optional
 from datetime import datetime
 
-from langchain.llms import OpenAI
+from langchain_openai import OpenAI
 from langchain.agents import AgentType, initialize_agent
 from langchain.memory import ConversationBufferWindowMemory
-from langchain.schema import BaseMessage
-from langchain.callbacks.base import BaseCallbackHandler
-from langchain.tools import BaseTool
+from langchain_core.messages import BaseMessage
+from langchain_core.callbacks.base import BaseCallbackHandler
+from langchain_core.tools import BaseTool
 
 from oracle_tools import OracleQueryTool, OracleSchemaExplorer, OracleTransactionTool
 from api_tools import APICallTool, HTTPRequestTool
@@ -50,7 +50,7 @@ class ToolExecutionCallback(BaseCallbackHandler):
             self.tool_executions[-1]["end_timestamp"] = datetime.now().isoformat()
         logger.info(f"Tool execution completed")
     
-    def on_tool_error(self, error: Exception, **kwargs) -> None:
+    def on_tool_error(self, error: BaseException, **kwargs) -> None:
         """Track when a tool encounters an error"""
         if self.tool_executions:
             self.tool_executions[-1]["error"] = str(error)
@@ -79,9 +79,9 @@ class MCPServer:
             # the newest OpenAI model is "gpt-4o" which was released May 13, 2024.
             # do not change this unless explicitly requested by the user
             self.llm = OpenAI(
-                model_name="gpt-4o",
+                model="gpt-4o",
                 temperature=0.7,
-                openai_api_key=self.config.openai_api_key,
+                api_key=self.config.openai_api_key,
                 max_tokens=2000
             )
             

@@ -9,7 +9,7 @@ import os
 import sys
 import json
 from datetime import datetime
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List
 from pathlib import Path
 
 class StructuredFormatter(logging.Formatter):

@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import Dict, Any, List
 import pandas as pd
 
-from mcp_server import MCPServer
+from simple_mcp_server import SimpleMCPServer
 from logger import get_logger
 
 # Configure logging
