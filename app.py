@@ -85,86 +85,177 @@ EXAMPLE_QUERIES = [
     }
 ]
 
-# Initialize MCP Server
 @st.cache_resource
-def init_mcp_server():
-    """Initialize and cache the MCP server instance"""
-    server = WorkingMCPServer()
-    return server
+def init_mcp_server(api_key=None):
+    """Initialize MCP server with optional API key"""
+    if api_key:
+        import os
+        os.environ["OPENAI_API_KEY"] = api_key
+    return WorkingMCPServer()
+
+def apply_preset_config(preset_name):
+    """Apply configuration preset"""
+    if preset_name in DEPLOYMENT_PRESETS:
+        preset = DEPLOYMENT_PRESETS[preset_name]
+        import os
+        for key, value in preset["config"].items():
+            os.environ[key] = value
+        return True
+    return False
+
+def display_tool_execution(execution):
+    """Display tool execution in a user-friendly format"""
+    tool_name = execution.get("tool_name", "Unknown Tool")
+    status = execution.get("status", "unknown")
+    
+    # Status indicator
+    status_icon = "✅" if status == "completed" else "❌" if status == "error" else "⏳"
+    
+    st.markdown(f"**{status_icon} {tool_name}**")
+    
+    # Input display
+    if "input" in execution:
+        input_data = execution["input"]
+        if isinstance(input_data, dict):
+            for key, value in input_data.items():
+                st.text(f"Input {key}: {value}")
+        else:
+            st.text(f"Input: {input_data}")
+    
+    # Output display
+    if "output" in execution:
+        output_data = execution["output"]
+        if isinstance(output_data, dict):
+            if output_data.get("status") == "success" and "data" in output_data:
+                # Display database results as table
+                data = output_data["data"]
+                if isinstance(data, list) and data:
+                    df = pd.DataFrame(data)
+                    st.dataframe(df, use_container_width=True)
+                    st.caption(f"Rows: {len(data)}")
+                else:
+                    st.info("No data returned")
+            else:
+                # Display other outputs as formatted text
+                if "error_message" in output_data:
+                    st.error(f"Error: {output_data['error_message']}")
+                else:
+                    st.json(output_data)
+        else:
+            st.text(str(output_data))
+    
+    # Timestamp
+    if "timestamp" in execution:
+        st.caption(f"Executed at: {execution['timestamp']}")
+    
+    st.divider()
 
 def main():
     st.set_page_config(
-        page_title="LangChain Agent with Oracle ADB & MCP Tools",
-        page_icon="🔗",
-        layout="wide"
+        page_title="Oracle ADB AI Agent",
+        page_icon="🤖",
+        layout="wide",
+        initial_sidebar_state="expanded"
     )
-    
-    st.title("🔗 LangChain Agent with Oracle ADB & MCP Tools")
-    st.markdown("Enterprise-grade LLM gateway with Oracle database integration and MCP tool orchestration")
-    
-    # Initialize MCP server
-    mcp_server = init_mcp_server()
-    
-    # Sidebar for configuration
+
+    # Header
+    st.title("🤖 Oracle ADB AI Agent")
+    st.markdown("Enterprise AI assistant for database operations and API integrations")
+
+    # Sidebar Configuration
     with st.sidebar:
-        st.header("Configuration")
+        st.header("⚙️ Configuration")
         
-        # API Key status
-        api_key_status = mcp_server.check_openai_connection()
-        if api_key_status:
-            st.success("✅ OpenAI API Connected")
+        # OpenAI API Key Input
+        st.subheader("🔑 OpenAI API Key")
+        api_key_input = st.text_input(
+            "Enter your OpenAI API Key",
+            type="password",
+            help="Get your API key from https://platform.openai.com/api-keys"
+        )
+        
+        if api_key_input:
+            st.success("✅ API Key provided")
         else:
-            st.error("❌ OpenAI API Not Connected")
-            st.warning("Please check your OPENAI_API_KEY environment variable")
+            st.warning("⚠️ API Key required for AI responses")
         
-        # Database status
-        db_status = mcp_server.check_database_connection()
-        if db_status:
-            st.success("✅ Database Connected")
+        st.divider()
+        
+        # Deployment Presets
+        st.subheader("🚀 Deployment Presets")
+        preset_choice = st.selectbox(
+            "Choose deployment scenario:",
+            options=list(DEPLOYMENT_PRESETS.keys()),
+            help="Pre-configured settings for different environments"
+        )
+        
+        if st.button("Apply Preset", type="primary"):
+            if apply_preset_config(preset_choice):
+                st.success(f"✅ Applied {preset_choice} preset")
+                st.rerun()
+        
+        # Show current preset details
+        if preset_choice:
+            preset = DEPLOYMENT_PRESETS[preset_choice]
+            st.info(f"**{preset_choice}**: {preset['description']}")
+            with st.expander("Configuration Details"):
+                for key, value in preset["config"].items():
+                    st.text(f"{key}: {value}")
+        
+        st.divider()
+        
+        # System Status
+        st.subheader("📊 System Status")
+        if api_key_input:
+            mcp_server = init_mcp_server(api_key_input)
+            
+            # Connection status
+            openai_status = mcp_server.check_openai_connection()
+            db_status = mcp_server.check_database_connection()
+            
+            st.metric("OpenAI API", "Connected" if openai_status else "Disconnected")
+            st.metric("Database", "Connected" if db_status else "Disconnected")
+            st.metric("Available Tools", len(mcp_server.get_available_tools()))
         else:
-            st.error("❌ Database Connection Failed")
-        
-        # Available tools
-        st.subheader("Available Tools")
-        tools = mcp_server.get_available_tools()
-        for tool in tools:
-            st.write(f"• {tool}")
-        
-        # Clear conversation
-        if st.button("Clear Conversation", type="secondary"):
-            if 'messages' in st.session_state:
-                del st.session_state.messages
-            if 'tool_executions' in st.session_state:
-                del st.session_state.tool_executions
-            st.rerun()
+            st.info("Enter API key to check status")
     
-    # Initialize session state
-    if 'messages' not in st.session_state:
-        st.session_state.messages = []
-    
-    if 'tool_executions' not in st.session_state:
-        st.session_state.tool_executions = []
-    
-    # Main chat interface
+    # Main Content Area
     col1, col2 = st.columns([2, 1])
     
     with col1:
-        st.subheader("Agent Conversation")
+        st.header("💬 Chat Interface")
         
-        # Display conversation history
+        # Initialize session state
+        if 'messages' not in st.session_state:
+            st.session_state.messages = []
+        if 'tool_executions' not in st.session_state:
+            st.session_state.tool_executions = []
+        
+        # Clear conversation button
+        if st.button("🗑️ Clear Conversation"):
+            st.session_state.messages = []
+            st.session_state.tool_executions = []
+            st.rerun()
+        
+        # Display conversation
         for message in st.session_state.messages:
             with st.chat_message(message["role"]):
                 st.write(message["content"])
                 
                 # Show tool executions for assistant messages
                 if message["role"] == "assistant" and "tool_executions" in message:
-                    with st.expander("Tool Executions", expanded=False):
-                        for execution in message["tool_executions"]:
-                            st.json(execution)
+                    if message["tool_executions"]:
+                        with st.expander("🔧 Tool Executions", expanded=False):
+                            for execution in message["tool_executions"]:
+                                display_tool_execution(execution)
         
         # Chat input
-        if prompt := st.chat_input("Ask me anything about your Oracle database or external APIs..."):
-            # Add user message to chat
+        if prompt := st.chat_input("Ask me about your Oracle database or APIs..."):
+            if not api_key_input:
+                st.error("Please enter your OpenAI API Key in the sidebar first.")
+                return
+            
+            # Add user message
             st.session_state.messages.append({"role": "user", "content": prompt})
             
             with st.chat_message("user"):
@@ -174,7 +265,7 @@ def main():
             with st.chat_message("assistant"):
                 with st.spinner("Processing your request..."):
                     try:
-                        # Execute agent query
+                        mcp_server = init_mcp_server(api_key_input)
                         result = asyncio.run(mcp_server.execute_agent_query(prompt))
                         
                         # Display response
@@ -188,84 +279,62 @@ def main():
                         }
                         st.session_state.messages.append(assistant_message)
                         
-                        # Update tool executions in session state
+                        # Show tool executions if any
                         if result.get("tool_executions"):
-                            st.session_state.tool_executions.extend(result["tool_executions"])
-                        
-                        # Show tool executions
-                        if result.get("tool_executions"):
-                            with st.expander("Tool Executions", expanded=True):
+                            with st.expander("🔧 Tool Executions", expanded=True):
                                 for execution in result["tool_executions"]:
-                                    st.json(execution)
+                                    display_tool_execution(execution)
                         
                     except Exception as e:
                         error_msg = f"Error processing request: {str(e)}"
                         st.error(error_msg)
-                        logger.error(f"Error in agent execution: {e}")
-                        
-                        # Add error message to chat
                         st.session_state.messages.append({
                             "role": "assistant",
                             "content": error_msg
                         })
     
     with col2:
-        st.subheader("Tool Execution History")
+        st.header("💡 Examples")
+        st.markdown("Click any example to try it:")
         
-        if st.session_state.tool_executions:
-            # Display recent tool executions
-            for i, execution in enumerate(reversed(st.session_state.tool_executions[-10:])):
-                with st.expander(f"Execution {len(st.session_state.tool_executions) - i}", expanded=False):
-                    st.write(f"**Tool:** {execution.get('tool_name', 'Unknown')}")
-                    st.write(f"**Status:** {execution.get('status', 'Unknown')}")
-                    st.write(f"**Timestamp:** {execution.get('timestamp', 'Unknown')}")
-                    
-                    if execution.get('input'):
-                        st.write("**Input:**")
-                        st.json(execution['input'])
-                    
-                    if execution.get('output'):
-                        st.write("**Output:**")
-                        # Handle different output types
-                        output = execution['output']
-                        if isinstance(output, dict) and 'data' in output:
-                            # Database query results
-                            if isinstance(output['data'], list) and output['data']:
-                                df = pd.DataFrame(output['data'])
-                                st.dataframe(df, use_container_width=True)
-                            else:
-                                st.json(output)
-                        else:
-                            st.json(output)
-                    
-                    if execution.get('error'):
-                        st.error(f"Error: {execution['error']}")
-        else:
-            st.info("No tool executions yet. Start a conversation to see tool activity.")
+        # Group examples by category
+        categories = {}
+        for example in EXAMPLE_QUERIES:
+            category = example["category"]
+            if category not in categories:
+                categories[category] = []
+            categories[category].append(example)
         
-        # Database schema info
-        st.subheader("Database Schema")
-        try:
-            schema_info = mcp_server.get_database_schema()
-            if schema_info:
-                st.json(schema_info)
-            else:
-                st.info("No schema information available")
-        except Exception as e:
-            st.error(f"Error loading schema: {e}")
-    
-    # Footer with system information
-    st.markdown("---")
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        st.metric("Total Messages", len(st.session_state.messages))
-    
-    with col2:
-        st.metric("Tool Executions", len(st.session_state.tool_executions))
-    
-    with col3:
-        st.metric("Available Tools", len(tools))
+        for category, examples in categories.items():
+            st.subheader(f"📁 {category}")
+            for example in examples:
+                if st.button(example["title"], key=f"example_{example['title']}", use_container_width=True):
+                    if not api_key_input:
+                        st.error("Please enter your OpenAI API Key first.")
+                        continue
+                    
+                    # Add to chat
+                    st.session_state.messages.append({"role": "user", "content": example["query"]})
+                    st.rerun()
+        
+        st.divider()
+        
+        # Architecture Overview
+        st.header("🏗️ Architecture")
+        st.markdown("""
+        **System Components:**
+        - 🌐 **Streamlit Interface**: Web-based chat UI
+        - 🤖 **MCP Server**: Query orchestration
+        - 🧠 **OpenAI GPT-4o**: AI responses
+        - 🗄️ **Oracle ADB Simulation**: Database operations
+        - 🔌 **API Tools**: External service calls
+        """)
+        
+        # Quick Stats
+        if api_key_input and 'messages' in st.session_state:
+            st.header("📈 Session Stats")
+            st.metric("Messages", len(st.session_state.messages))
+            st.metric("Tool Calls", len(st.session_state.tool_executions))
 
 if __name__ == "__main__":
     main()
