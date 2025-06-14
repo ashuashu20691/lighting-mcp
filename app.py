@@ -6,10 +6,84 @@ from typing import Dict, Any, List
 import pandas as pd
 
 from working_mcp_server import WorkingMCPServer
-from logger import get_logger
 
-# Configure logging
-logger = get_logger(__name__)
+# Configuration presets
+DEPLOYMENT_PRESETS = {
+    "Development": {
+        "description": "Local development with detailed logging",
+        "config": {
+            "LOG_LEVEL": "DEBUG",
+            "API_TIMEOUT": "30",
+            "API_MAX_RETRIES": "3",
+            "CACHE_TOOL_RESULTS": "true",
+            "ENVIRONMENT": "development"
+        }
+    },
+    "Production": {
+        "description": "Production deployment with optimized settings",
+        "config": {
+            "LOG_LEVEL": "INFO",
+            "API_TIMEOUT": "15",
+            "API_MAX_RETRIES": "5",
+            "CACHE_TOOL_RESULTS": "true",
+            "ENVIRONMENT": "production"
+        }
+    },
+    "Testing": {
+        "description": "Testing environment with verbose logging",
+        "config": {
+            "LOG_LEVEL": "WARNING",
+            "API_TIMEOUT": "60",
+            "API_MAX_RETRIES": "1",
+            "CACHE_TOOL_RESULTS": "false",
+            "ENVIRONMENT": "testing"
+        }
+    },
+    "Demo": {
+        "description": "Demo setup with sample data focus",
+        "config": {
+            "LOG_LEVEL": "INFO",
+            "API_TIMEOUT": "20",
+            "API_MAX_RETRIES": "2",
+            "CACHE_TOOL_RESULTS": "true",
+            "ENVIRONMENT": "demo"
+        }
+    }
+}
+
+# Example queries
+EXAMPLE_QUERIES = [
+    {
+        "title": "Show all employees",
+        "query": "Show me all employees in the database",
+        "category": "Database"
+    },
+    {
+        "title": "Department information",
+        "query": "What departments do we have?",
+        "category": "Database"
+    },
+    {
+        "title": "Recent orders",
+        "query": "Show me the latest orders",
+        "category": "Database"
+    },
+    {
+        "title": "Database schema",
+        "query": "What tables are available in the database?",
+        "category": "Schema"
+    },
+    {
+        "title": "Test API call",
+        "query": "Make a test API call to get sample data",
+        "category": "API"
+    },
+    {
+        "title": "Ask anything",
+        "query": "What can you help me with?",
+        "category": "General"
+    }
+]
 
 # Initialize MCP Server
 @st.cache_resource

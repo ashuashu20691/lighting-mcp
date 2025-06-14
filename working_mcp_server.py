@@ -166,7 +166,7 @@ class WorkingMCPServer:
                 query_result = self.execute_oracle_query(sql_query)
                 tool_executions.append({
                     "tool_name": "oracle_query_executor",
-                    "input": sql_query,
+                    "input": {"sql_query": sql_query},
                     "output": query_result,
                     "status": "completed",
                     "timestamp": datetime.now().isoformat()
@@ -182,7 +182,7 @@ class WorkingMCPServer:
                 api_result = self.make_api_call("https://jsonplaceholder.typicode.com/posts/1")
                 tool_executions.append({
                     "tool_name": "api_caller",
-                    "input": "https://jsonplaceholder.typicode.com/posts/1",
+                    "input": {"url": "https://jsonplaceholder.typicode.com/posts/1", "method": "GET"},
                     "output": api_result,
                     "status": "completed",
                     "timestamp": datetime.now().isoformat()
