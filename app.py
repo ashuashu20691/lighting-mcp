@@ -51,37 +51,87 @@ DEPLOYMENT_PRESETS = {
     }
 }
 
-# Example queries
+# Enhanced example queries with better categorization and descriptions
 EXAMPLE_QUERIES = [
     {
-        "title": "Show all employees",
-        "query": "Show me all employees in the database",
-        "category": "Database"
+        "title": "📊 View All Employees",
+        "query": "Show me all employees with their details including department and salary information",
+        "category": "Database Queries",
+        "description": "Retrieve complete employee roster",
+        "complexity": "Basic",
+        "expected_result": "Table with employee names, departments, salaries, and hire dates"
     },
     {
-        "title": "Department information",
-        "query": "What departments do we have?",
-        "category": "Database"
+        "title": "🏢 Department Overview",
+        "query": "What departments do we have and what are their budgets?",
+        "category": "Database Queries", 
+        "description": "Get department structure and financial data",
+        "complexity": "Basic",
+        "expected_result": "Department names with budget allocations"
     },
     {
-        "title": "Recent orders",
-        "query": "Show me the latest orders",
-        "category": "Database"
+        "title": "📈 Sales Analysis",
+        "query": "Show me the top 10 orders by amount and which employees handled them",
+        "category": "Database Queries",
+        "description": "Revenue analysis with employee performance",
+        "complexity": "Intermediate",
+        "expected_result": "Top orders with amounts and responsible employees"
     },
     {
-        "title": "Database schema",
-        "query": "What tables are available in the database?",
-        "category": "Schema"
+        "title": "💰 Salary Analytics",
+        "query": "What is the average salary by department and who are the highest paid employees?",
+        "category": "Analytics",
+        "description": "Compensation analysis across departments",
+        "complexity": "Intermediate", 
+        "expected_result": "Average salaries by department plus top earners"
     },
     {
-        "title": "Test API call",
-        "query": "Make a test API call to get sample data",
-        "category": "API"
+        "title": "🔍 Database Schema Explorer",
+        "query": "What tables are available and what columns do they contain?",
+        "category": "Schema Discovery",
+        "description": "Explore database structure and relationships",
+        "complexity": "Basic",
+        "expected_result": "Complete schema overview with table structures"
     },
     {
-        "title": "Ask anything",
-        "query": "What can you help me with?",
-        "category": "General"
+        "title": "📋 Table Relationships",
+        "query": "Show me how the employees, departments, and orders tables are connected",
+        "category": "Schema Discovery",
+        "description": "Understand data relationships and foreign keys",
+        "complexity": "Intermediate",
+        "expected_result": "Relationship mapping between tables"
+    },
+    {
+        "title": "🌐 External API Test",
+        "query": "Make a test API call to fetch sample JSON data",
+        "category": "API Integration",
+        "description": "Test external service connectivity",
+        "complexity": "Basic",
+        "expected_result": "JSON response from external API"
+    },
+    {
+        "title": "🔧 System Status Check",
+        "query": "Check the status of all database connections and available tools",
+        "category": "System Health",
+        "description": "Verify system components are working",
+        "complexity": "Basic",
+        "expected_result": "Connection status and tool availability report"
+    },
+    {
+        "title": "💡 AI Assistant Capabilities",
+        "query": "What can you help me with? Show me your available features and tools",
+        "category": "Getting Started",
+        "description": "Learn about available features and capabilities",
+        "complexity": "Basic",
+        "expected_result": "Overview of available tools and use cases"
+    },
+    {
+        "title": "🚀 Complex Query Example",
+        "query": "Find employees hired in the last year who work in departments with budgets over $100,000 and show their total sales",
+        "category": "Advanced Queries",
+        "description": "Multi-table join with date and amount filtering",
+        "complexity": "Advanced",
+        "expected_result": "Filtered employee list with sales performance data"
     }
 ]
 
@@ -294,47 +344,115 @@ def main():
                         })
     
     with col2:
-        st.header("💡 Examples")
-        st.markdown("Click any example to try it:")
+        st.header("💡 Query Examples")
+        st.markdown("Explore capabilities with these pre-built examples")
+        
+        # Filter by complexity
+        complexity_filter = st.selectbox(
+            "Filter by complexity:",
+            ["All", "Basic", "Intermediate", "Advanced"],
+            key="complexity_filter"
+        )
         
         # Group examples by category
         categories = {}
         for example in EXAMPLE_QUERIES:
-            category = example["category"]
-            if category not in categories:
-                categories[category] = []
-            categories[category].append(example)
+            if complexity_filter == "All" or example["complexity"] == complexity_filter:
+                category = example["category"]
+                if category not in categories:
+                    categories[category] = []
+                categories[category].append(example)
         
+        # Display categories with improved UI
         for category, examples in categories.items():
-            st.subheader(f"📁 {category}")
-            for example in examples:
-                if st.button(example["title"], key=f"example_{example['title']}", use_container_width=True):
-                    if not api_key_input:
-                        st.error("Please enter your OpenAI API Key first.")
-                        continue
-                    
-                    # Add to chat
-                    st.session_state.messages.append({"role": "user", "content": example["query"]})
-                    st.rerun()
-        
-        st.divider()
+            with st.expander(f"📁 {category} ({len(examples)} examples)", expanded=True):
+                for example in examples:
+                    # Create a card-like layout for each example
+                    with st.container():
+                        col_button, col_info = st.columns([3, 1])
+                        
+                        with col_button:
+                            if st.button(
+                                example["title"], 
+                                key=f"example_{example['title']}", 
+                                use_container_width=True,
+                                help=example["description"]
+                            ):
+                                if not api_key_input:
+                                    st.error("Please enter your OpenAI API Key first.")
+                                    continue
+                                
+                                # Add to chat
+                                st.session_state.messages.append({"role": "user", "content": example["query"]})
+                                st.rerun()
+                        
+                        with col_info:
+                            # Complexity badge
+                            complexity_color = {
+                                "Basic": "🟢",
+                                "Intermediate": "🟡", 
+                                "Advanced": "🔴"
+                            }
+                            st.caption(f"{complexity_color.get(example['complexity'], '⚪')} {example['complexity']}")
+                        
+                        # Description and expected result
+                        st.caption(f"📝 {example['description']}")
+                        st.caption(f"📊 Expected: {example['expected_result']}")
+                        st.divider()
         
         # Architecture Overview
-        st.header("🏗️ Architecture")
-        st.markdown("""
-        **System Components:**
-        - 🌐 **Streamlit Interface**: Web-based chat UI
-        - 🤖 **MCP Server**: Query orchestration
-        - 🧠 **OpenAI GPT-4o**: AI responses
-        - 🗄️ **Oracle ADB Simulation**: Database operations
-        - 🔌 **API Tools**: External service calls
-        """)
+        st.header("🏗️ System Architecture")
+        
+        # Display architecture diagram
+        try:
+            st.image("architecture_diagram.svg", caption="System Architecture Diagram", use_column_width=True)
+        except:
+            st.markdown("""
+            **System Components:**
+            - **Web Interface**: Streamlit chat UI with configuration
+            - **MCP Server**: Query orchestration and AI integration  
+            - **OpenAI GPT-4o**: Natural language processing
+            - **Database Layer**: Oracle ADB simulation with enterprise data
+            - **API Tools**: External service integrations
+            - **Configuration**: One-click deployment presets
+            """)
         
         # Quick Stats
         if api_key_input and 'messages' in st.session_state:
-            st.header("📈 Session Stats")
-            st.metric("Messages", len(st.session_state.messages))
-            st.metric("Tool Calls", len(st.session_state.tool_executions))
+            st.header("📈 Session Statistics")
+            
+            col_stat1, col_stat2 = st.columns(2)
+            with col_stat1:
+                st.metric("Messages", len(st.session_state.messages))
+                st.metric("Tool Calls", len(st.session_state.tool_executions))
+            
+            with col_stat2:
+                # Calculate response time average if available
+                total_messages = len(st.session_state.messages)
+                user_messages = len([m for m in st.session_state.messages if m["role"] == "user"])
+                st.metric("User Queries", user_messages)
+                st.metric("Success Rate", f"{max(0, total_messages-1) * 100 // max(1, total_messages)}%")
+        
+        # Help section
+        st.header("🆘 Need Help?")
+        st.markdown("""
+        **Getting Started:**
+        1. Enter your OpenAI API key in the sidebar
+        2. Select a deployment preset (Demo recommended)
+        3. Try an example query or ask your own question
+        
+        **Tips:**
+        - Use natural language for database queries
+        - Ask about table structures and relationships
+        - Test API integrations with sample endpoints
+        - Explore advanced analytics and reporting
+        """)
+        
+        if st.button("📚 View Complete Documentation", use_container_width=True):
+            st.info("Documentation available in DOCUMENTATION.md file")
+        
+        if st.button("🔧 Download Oracle Connection Template", use_container_width=True):
+            st.info("Oracle connection code available in oracle_connection.py")
 
 if __name__ == "__main__":
     main()

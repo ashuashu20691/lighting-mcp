@@ -1,159 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="1000" height="800" xmlns="http://www.w3.org/2000/svg">
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <style>
-      .title { font: bold 24px Arial; fill: #2c3e50; }
-      .subtitle { font: 18px Arial; fill: #34495e; }
-      .label { font: 14px Arial; fill: #2c3e50; }
-      .small-label { font: 12px Arial; fill: #7f8c8d; }
-      .box { fill: #ecf0f1; stroke: #3498db; stroke-width: 2; rx: 8; }
-      .ai-box { fill: #e8f5e8; stroke: #27ae60; stroke-width: 2; rx: 8; }
-      .db-box { fill: #fef9e7; stroke: #f39c12; stroke-width: 2; rx: 8; }
-      .api-box { fill: #ebf3fd; stroke: #3498db; stroke-width: 2; rx: 8; }
-      .user-box { fill: #fdf2e9; stroke: #e67e22; stroke-width: 2; rx: 8; }
+      .title { font: bold 20px Arial; fill: #2c3e50; text-anchor: middle; }
+      .label { font: 12px Arial; fill: #2c3e50; text-anchor: middle; }
+      .small-label { font: 10px Arial; fill: #7f8c8d; text-anchor: middle; }
+      .box { fill: #ecf0f1; stroke: #3498db; stroke-width: 2; rx: 5; }
+      .ai-box { fill: #e8f5e8; stroke: #27ae60; stroke-width: 2; rx: 5; }
+      .db-box { fill: #fef9e7; stroke: #f39c12; stroke-width: 2; rx: 5; }
+      .api-box { fill: #ebf3fd; stroke: #3498db; stroke-width: 2; rx: 5; }
       .arrow { stroke: #2c3e50; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
-      .data-flow { stroke: #e74c3c; stroke-width: 2; fill: none; stroke-dasharray: 5,5; }
     </style>
     <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0, 10 3.5, 0 7" fill="#2c3e50"/>
     </marker>
   </defs>
   
-  <!-- Title -->
-  <text x="500" y="30" text-anchor="middle" class="title">LangChain Agent with Oracle ADB & MCP Architecture</text>
-  <text x="500" y="55" text-anchor="middle" class="subtitle">Enterprise-grade LLM Gateway with Database Integration</text>
+  <text x="400" y="30" class="title">Oracle ADB AI Agent Architecture</text>
+  <text x="400" y="50" class="label">Enterprise AI Gateway with Database Integration</text>
   
   <!-- User Interface Layer -->
-  <rect x="50" y="100" width="900" height="120" class="user-box"/>
-  <text x="500" y="125" text-anchor="middle" class="label">User Interface Layer</text>
-  
-  <!-- Streamlit Web App -->
-  <rect x="100" y="140" width="200" height="60" class="box"/>
-  <text x="200" y="165" text-anchor="middle" class="label">Streamlit Web App</text>
-  <text x="200" y="185" text-anchor="middle" class="small-label">Interactive Chat Interface</text>
-  
-  <!-- Configuration & Monitoring -->
-  <rect x="350" y="140" width="150" height="60" class="box"/>
-  <text x="425" y="165" text-anchor="middle" class="label">Configuration</text>
-  <text x="425" y="185" text-anchor="middle" class="small-label">Settings & Monitoring</text>
-  
-  <!-- Tool Execution History -->
-  <rect x="550" y="140" width="150" height="60" class="box"/>
-  <text x="625" y="165" text-anchor="middle" class="label">Tool History</text>
-  <text x="625" y="185" text-anchor="middle" class="small-label">Execution Tracking</text>
-  
-  <!-- Database Schema Viewer -->
-  <rect x="750" y="140" width="150" height="60" class="box"/>
-  <text x="825" y="165" text-anchor="middle" class="label">Schema Viewer</text>
-  <text x="825" y="185" text-anchor="middle" class="small-label">Real-time Schema</text>
+  <rect x="50" y="80" width="700" height="60" class="box"/>
+  <text x="400" y="105" class="label">Streamlit Web Interface</text>
+  <text x="400" y="120" class="small-label">Chat, Configuration, Monitoring, Examples</text>
   
   <!-- MCP Server Layer -->
-  <rect x="50" y="280" width="900" height="120" class="ai-box"/>
-  <text x="500" y="305" text-anchor="middle" class="label">MCP (Model Context Protocol) Server Layer</text>
-  
-  <!-- Working MCP Server -->
-  <rect x="150" y="320" width="200" height="60" class="box"/>
-  <text x="250" y="345" text-anchor="middle" class="label">Working MCP Server</text>
-  <text x="250" y="365" text-anchor="middle" class="small-label">Query Orchestration</text>
-  
-  <!-- OpenAI Integration -->
-  <rect x="400" y="320" width="150" height="60" class="ai-box"/>
-  <text x="475" y="345" text-anchor="middle" class="label">OpenAI Client</text>
-  <text x="475" y="365" text-anchor="middle" class="small-label">GPT-4o Integration</text>
-  
-  <!-- Tool Manager -->
-  <rect x="600" y="320" width="150" height="60" class="box"/>
-  <text x="675" y="345" text-anchor="middle" class="label">Tool Manager</text>
-  <text x="675" y="365" text-anchor="middle" class="small-label">Execution Control</text>
+  <rect x="50" y="160" width="700" height="60" class="ai-box"/>
+  <text x="400" y="185" class="label">MCP Server + OpenAI GPT-4o</text>
+  <text x="400" y="200" class="small-label">Query Orchestration &amp; AI Responses</text>
   
   <!-- Tools Layer -->
-  <rect x="50" y="460" width="900" height="120" class="api-box"/>
-  <text x="500" y="485" text-anchor="middle" class="label">Tools & Integrations Layer</text>
+  <rect x="50" y="240" width="200" height="50" class="db-box"/>
+  <text x="150" y="260" class="label">Oracle Queries</text>
+  <text x="150" y="275" class="small-label">SQL Execution</text>
   
-  <!-- Oracle Query Tool -->
-  <rect x="80" y="500" width="140" height="60" class="db-box"/>
-  <text x="150" y="520" text-anchor="middle" class="label">Oracle Query</text>
-  <text x="150" y="535" text-anchor="middle" class="label">Executor</text>
-  <text x="150" y="550" text-anchor="middle" class="small-label">SQL Execution</text>
+  <rect x="300" y="240" width="200" height="50" class="db-box"/>
+  <text x="400" y="260" class="label">Schema Explorer</text>
+  <text x="400" y="275" class="small-label">Metadata Discovery</text>
   
-  <!-- Schema Explorer -->
-  <rect x="240" y="500" width="140" height="60" class="db-box"/>
-  <text x="310" y="520" text-anchor="middle" class="label">Schema</text>
-  <text x="310" y="535" text-anchor="middle" class="label">Explorer</text>
-  <text x="310" y="550" text-anchor="middle" class="small-label">Metadata Discovery</text>
-  
-  <!-- Transaction Manager -->
-  <rect x="400" y="500" width="140" height="60" class="db-box"/>
-  <text x="470" y="520" text-anchor="middle" class="label">Transaction</text>
-  <text x="470" y="535" text-anchor="middle" class="label">Manager</text>
-  <text x="470" y="550" text-anchor="middle" class="small-label">ACID Operations</text>
-  
-  <!-- API Caller -->
-  <rect x="560" y="500" width="140" height="60" class="api-box"/>
-  <text x="630" y="520" text-anchor="middle" class="label">API Caller</text>
-  <text x="630" y="535" text-anchor="middle" class="label">Tool</text>
-  <text x="630" y="550" text-anchor="middle" class="small-label">External Services</text>
-  
-  <!-- HTTP Request Tool -->
-  <rect x="720" y="500" width="140" height="60" class="api-box"/>
-  <text x="790" y="520" text-anchor="middle" class="label">HTTP Request</text>
-  <text x="790" y="535" text-anchor="middle" class="label">Tool</text>
-  <text x="790" y="550" text-anchor="middle" class="small-label">Advanced HTTP</text>
+  <rect x="550" y="240" width="200" height="50" class="api-box"/>
+  <text x="650" y="260" class="label">API Caller</text>
+  <text x="650" y="275" class="small-label">External Services</text>
   
   <!-- Data Layer -->
-  <rect x="50" y="640" width="900" height="120" class="db-box"/>
-  <text x="500" y="665" text-anchor="middle" class="label">Data & External Services Layer</text>
+  <rect x="50" y="320" width="300" height="50" class="db-box"/>
+  <text x="200" y="340" class="label">Oracle ADB Simulation</text>
+  <text x="200" y="355" class="small-label">Enterprise Data (SQLite)</text>
   
-  <!-- Oracle ADB Simulation -->
-  <rect x="100" y="680" width="180" height="60" class="db-box"/>
-  <text x="190" y="700" text-anchor="middle" class="label">Oracle ADB</text>
-  <text x="190" y="715" text-anchor="middle" class="label">Simulation</text>
-  <text x="190" y="730" text-anchor="middle" class="small-label">SQLite Backend</text>
+  <rect x="400" y="320" width="350" height="50" class="api-box"/>
+  <text x="575" y="340" class="label">External APIs &amp; Configuration</text>
+  <text x="575" y="355" class="small-label">REST Services, Environment Vars</text>
   
-  <!-- Sample Enterprise Data -->
-  <rect x="300" y="680" width="180" height="60" class="db-box"/>
-  <text x="390" y="700" text-anchor="middle" class="label">Enterprise Data</text>
-  <text x="390" y="715" text-anchor="middle" class="label">(Employees, Orders)</text>
-  <text x="390" y="730" text-anchor="middle" class="small-label">Sample Dataset</text>
+  <!-- Configuration Layer -->
+  <rect x="50" y="400" width="700" height="80" class="box"/>
+  <text x="400" y="425" class="label">Configuration Management</text>
+  <text x="200" y="445" class="small-label">Development</text>
+  <text x="350" y="445" class="small-label">Production</text>
+  <text x="450" y="445" class="small-label">Testing</text>
+  <text x="600" y="445" class="small-label">Demo</text>
+  <text x="400" y="465" class="small-label">One-Click Deployment Presets</text>
   
-  <!-- External APIs -->
-  <rect x="500" y="680" width="180" height="60" class="api-box"/>
-  <text x="590" y="700" text-anchor="middle" class="label">External APIs</text>
-  <text x="590" y="715" text-anchor="middle" class="label">(REST Services)</text>
-  <text x="590" y="730" text-anchor="middle" class="small-label">JSON Placeholder</text>
+  <!-- Arrows -->
+  <line x1="400" y1="140" x2="400" y2="160" class="arrow"/>
+  <line x1="400" y1="220" x2="150" y2="240" class="arrow"/>
+  <line x1="400" y1="220" x2="400" y2="240" class="arrow"/>
+  <line x1="400" y1="220" x2="650" y2="240" class="arrow"/>
+  <line x1="150" y1="290" x2="200" y2="320" class="arrow"/>
+  <line x1="650" y1="290" x2="575" y2="320" class="arrow"/>
+  <line x1="400" y1="370" x2="400" y2="400" class="arrow"/>
   
-  <!-- Configuration Files -->
-  <rect x="700" y="680" width="180" height="60" class="box"/>
-  <text x="790" y="700" text-anchor="middle" class="label">Configuration</text>
-  <text x="790" y="715" text-anchor="middle" class="label">& Logging</text>
-  <text x="790" y="730" text-anchor="middle" class="small-label">Env Variables</text>
+  <!-- Labels for connections -->
+  <text x="320" y="235" class="small-label">Tool Selection</text>
+  <text x="400" y="385" class="small-label">Configuration</text>
   
-  <!-- Arrows showing data flow -->
-  <line x1="200" y1="220" x2="250" y2="280" class="arrow"/>
-  <line x1="250" y1="400" x2="250" y2="460" class="arrow"/>
-  <line x1="475" y1="400" x2="475" y2="420" class="arrow"/>
-  <line x1="475" y1="440" x2="475" y2="460" class="arrow"/>
-  
-  <!-- Tool connections -->
-  <line x1="150" y1="580" x2="190" y2="640" class="arrow"/>
-  <line x1="310" y1="580" x2="390" y2="640" class="arrow"/>
-  <line x1="470" y1="580" x2="390" y2="640" class="arrow"/>
-  <line x1="630" y1="580" x2="590" y2="640" class="arrow"/>
-  <line x1="790" y1="580" x2="590" y2="640" class="arrow"/>
-  
-  <!-- Data flow indicators -->
-  <line x1="675" y1="400" x2="675" y2="460" class="data-flow"/>
-  <line x1="825" y1="220" x2="825" y2="280" class="data-flow"/>
-  
-  <!-- Legend -->
-  <rect x="780" y="10" width="200" height="80" fill="white" stroke="#bdc3c7" stroke-width="1" rx="5"/>
-  <text x="880" y="25" text-anchor="middle" class="small-label">Legend</text>
-  <rect x="790" y="30" width="15" height="10" class="user-box"/>
-  <text x="815" y="38" class="small-label">User Interface</text>
-  <rect x="790" y="45" width="15" height="10" class="ai-box"/>
-  <text x="815" y="53" class="small-label">AI/MCP Layer</text>
-  <rect x="790" y="60" width="15" height="10" class="db-box"/>
-  <text x="815" y="68" class="small-label">Database Layer</text>
-  <rect x="790" y="75" width="15" height="10" class="api-box"/>
-  <text x="815" y="83" class="small-label">API Layer</text>
 </svg>

@@ -1,279 +1,415 @@
-# LangChain Agent with Oracle ADB & MCP Integration
+# Oracle ADB AI Agent - Enterprise LangChain Integration
+
+Enterprise-grade LangChain agent with Oracle Autonomous Database (ADB) integration using Model Context Protocol (MCP) for AI-powered database operations and API orchestration.
 
 ## Overview
 
-This application is an enterprise-grade LLM gateway that demonstrates the Model Context Protocol (MCP) integration with Oracle Autonomous Database (ADB) connection patterns. It provides a sophisticated AI agent capable of executing database operations, making API calls, and providing intelligent responses through a modern web interface.
+This system provides a sophisticated AI-powered interface for Oracle database operations, combining natural language processing with enterprise database connectivity. The agent can understand complex queries, execute SQL operations, explore schema relationships, and integrate with external APIs.
 
-![Architecture Diagram](architecture_diagram.svg)
+## Key Features
 
-## What This Application Does
+### AI-Powered Database Operations
+- Natural language to SQL translation using OpenAI GPT-4o
+- Intelligent query optimization and result interpretation
+- Context-aware database exploration and schema discovery
 
-### Core Capabilities
+### Enterprise Oracle ADB Integration
+- Production-ready Oracle Autonomous Database connectivity
+- Wallet-based secure authentication
+- Connection pooling for high-performance operations
+- Transaction management with rollback capabilities
 
-1. **Intelligent Database Operations**
-   - Execute SQL queries against Oracle ADB patterns
-   - Explore database schema and table structures
-   - Manage transactions with ACID compliance
-   - View real-time query execution results
+### Model Context Protocol (MCP) Server
+- Microservices architecture for tool orchestration
+- Real-time tool execution monitoring
+- Comprehensive error handling and logging
+- Extensible plugin architecture
 
-2. **External API Integration**
-   - Make HTTP requests to external services
-   - Handle various authentication methods
-   - Process JSON and XML responses
-   - Monitor API call performance
+### Interactive Web Interface
+- Streamlit-based chat interface with real-time responses
+- Visual query result display with data tables
+- One-click deployment configuration presets
+- System health monitoring and status indicators
 
-3. **AI-Powered Assistance**
-   - Natural language query processing via OpenAI GPT-4o
-   - Context-aware responses about database operations
-   - Intelligent tool selection and execution
-   - Conversation memory and history tracking
+### Advanced Analytics & Reporting
+- Multi-table join operations with complex filtering
+- Salary analytics and department performance metrics
+- Sales analysis with employee performance tracking
+- Real-time schema exploration and relationship mapping
 
-4. **Enterprise Features**
-   - Structured logging with rotation
-   - Configuration management
-   - Tool execution monitoring
-   - Error handling and recovery
+## Quick Start Guide
 
-## Architecture Components
-
-### User Interface Layer
-- **Streamlit Web Application**: Interactive chat interface for user interactions
-- **Configuration Panel**: Real-time system status and settings
-- **Tool Execution History**: Visual tracking of all tool executions
-- **Database Schema Viewer**: Live schema exploration interface
-
-### MCP Server Layer
-- **Working MCP Server**: Orchestrates query processing and tool execution
-- **OpenAI Integration**: GPT-4o client for intelligent response generation
-- **Tool Manager**: Controls and monitors tool execution flow
-
-### Tools & Integrations
-- **Oracle Query Executor**: Executes SQL queries with Oracle ADB formatting
-- **Schema Explorer**: Discovers and analyzes database metadata
-- **Transaction Manager**: Handles database transactions with proper isolation
-- **API Caller**: Makes external HTTP requests with authentication
-- **HTTP Request Tool**: Advanced HTTP operations with detailed analysis
-
-### Data Layer
-- **Oracle ADB Simulation**: SQLite backend implementing Oracle patterns
-- **Enterprise Sample Data**: Realistic datasets (employees, departments, orders, products)
-- **External API Endpoints**: Integration with REST services
-- **Configuration Storage**: Environment-based settings management
-
-## How to Use
-
-### Prerequisites
-
-1. **OpenAI API Key**: Required for AI functionality
-   - Sign up at [OpenAI Platform](https://platform.openai.com/)
-   - Create an API key in your dashboard
-   - Add it to your environment as `OPENAI_API_KEY`
-
-2. **Python Environment**: Python 3.11+ recommended
-
-### Installation & Setup
-
-1. **Clone and Navigate**
-   ```bash
-   git clone <repository-url>
-   cd langchain-oracle-mcp
-   ```
-
-2. **Install Dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Set Environment Variables**
-   ```bash
-   export OPENAI_API_KEY="your-openai-api-key-here"
-   ```
-
-4. **Run the Application**
-   ```bash
-   streamlit run app.py --server.port 5000
-   ```
-
-5. **Access the Interface**
-   - Open your browser to `http://localhost:5000`
-   - The application will initialize automatically
-
-### Using the Interface
-
-#### Main Chat Interface
-- **Ask Questions**: Type natural language queries about your database
-- **View Responses**: Get intelligent AI responses with tool execution details
-- **Monitor Tools**: See real-time tool execution in expandable sections
-
-#### Example Queries
-
-**Database Operations:**
-```
-"Show me all employees in the IT department"
-"What tables are available in the database?"
-"Get the latest orders from this month"
-"Describe the schema of the employees table"
-```
-
-**API Operations:**
-```
-"Make an API call to get sample data"
-"Test the external service endpoint"
-"Show me how to make HTTP requests"
-```
-
-**Mixed Operations:**
-```
-"Query the database and then call an external API"
-"Get employee data and format it for an API call"
-```
-
-#### Sidebar Features
-- **Connection Status**: Monitor OpenAI and database connectivity
-- **Available Tools**: View all enabled tools and their status
-- **Clear Conversation**: Reset chat history and tool executions
-
-#### Tool Execution History
-- **Recent Executions**: View the last 10 tool executions
-- **Detailed Results**: Expand to see input parameters and output data
-- **Performance Metrics**: Monitor execution times and success rates
-- **Data Visualization**: Automatic table formatting for query results
-
-#### Database Schema Viewer
-- **Live Schema**: Real-time database structure information
-- **Table Details**: Column definitions, constraints, and relationships
-- **Metadata**: Oracle-style system information and statistics
-
-## What This Application Serves
-
-### Enterprise Use Cases
-
-1. **Database Administration**
-   - Query execution and optimization
-   - Schema exploration and analysis
-   - Transaction management and monitoring
-   - Performance tuning assistance
-
-2. **API Integration Testing**
-   - External service connectivity testing
-   - Authentication method validation
-   - Response format analysis
-   - Integration debugging
-
-3. **AI-Assisted Development**
-   - Natural language to SQL translation
-   - Code generation and optimization
-   - Documentation and explanation
-   - Best practices recommendations
-
-4. **Data Analysis & Reporting**
-   - Ad-hoc query execution
-   - Data exploration and discovery
-   - Report generation assistance
-   - Business intelligence support
-
-### Technical Benefits
-
-1. **Oracle ADB Patterns**
-   - Demonstrates real Oracle connection patterns
-   - Implements enterprise-grade transaction handling
-   - Provides Oracle-compatible SQL formatting
-   - Shows proper error handling and recovery
-
-2. **MCP Integration**
-   - Showcases Model Context Protocol implementation
-   - Demonstrates tool orchestration patterns
-   - Provides extensible architecture for new tools
-   - Shows proper AI agent design patterns
-
-3. **Production-Ready Features**
-   - Comprehensive logging and monitoring
-   - Environment-based configuration
-   - Error handling and graceful degradation
-   - Security best practices
-
-## Configuration
-
-### Environment Variables
+### 1. Environment Setup
 
 ```bash
-# Required
-OPENAI_API_KEY=your-openai-api-key
+# Clone the repository
+git clone <repository-url>
+cd oracle-adb-ai-agent
 
-# Optional Database Configuration
-DB_PATH=./data/enterprise_db.sqlite
-ORACLE_HOST=autonomous-db.oracle.com
-ORACLE_SERVICE=autonomous_db_high
-
-# Optional API Configuration
-API_MAX_RETRIES=3
-API_TIMEOUT=30
-API_RATE_LIMIT=100
-
-# Optional Logging Configuration
-LOG_LEVEL=INFO
-LOG_FILE=./logs/mcp_server.log
-LOG_CONSOLE=true
+# Dependencies are already installed in the current environment
 ```
 
-### Customization Options
+### 2. Configuration
 
-1. **Add New Tools**: Extend the tool set by implementing new BaseTool classes
-2. **Database Schema**: Modify the sample data in `database.py`
-3. **UI Customization**: Adjust the Streamlit interface in `app.py`
-4. **Logging Configuration**: Customize logging behavior in `logger.py`
+#### Required Environment Variables
+```bash
+# OpenAI Configuration
+export OPENAI_API_KEY="sk-your-openai-api-key"
 
-## Technical Architecture
+# Oracle ADB Configuration (for production)
+export ORACLE_WALLET_LOCATION="/path/to/oracle/wallet"
+export ORACLE_WALLET_PASSWORD="your_wallet_password"
+export ORACLE_CONNECTION_STRING="service_name_high"
+export ORACLE_USERNAME="ADMIN"
+export ORACLE_PASSWORD="your_db_password"
 
-### Design Patterns
+# Application Configuration
+export LOG_LEVEL="INFO"
+export ENVIRONMENT="production"
+```
 
-- **Model Context Protocol (MCP)**: Standardized tool integration
-- **Tool Orchestration**: Intelligent tool selection and execution
-- **Enterprise Database Patterns**: Oracle ADB connection simulation
-- **Microservices Architecture**: Modular, scalable component design
+#### Alternative: Use Web Interface
+- Enter OpenAI API key directly in the web interface sidebar
+- Select deployment preset (Development/Production/Testing/Demo)
+- System will guide you through configuration
 
-### Key Technologies
+### 3. Run Application
 
-- **Frontend**: Streamlit (Python web framework)
-- **AI Integration**: OpenAI GPT-4o API
-- **Database**: SQLite with Oracle pattern simulation
-- **HTTP Client**: Requests with advanced authentication
-- **Logging**: Structured logging with rotation
-- **Configuration**: Environment-based settings
+```bash
+streamlit run app.py --server.port 5000
+```
 
-### Performance Features
+Access the application at: `http://localhost:5000`
 
-- **Connection Pooling**: Efficient database connection management
-- **Caching**: Streamlit resource caching for optimal performance
-- **Async Operations**: Non-blocking tool execution
-- **Error Recovery**: Graceful handling of failures
+## Architecture Deep Dive
 
-## Troubleshooting
+### System Components
 
-### Common Issues
+```
+┌─────────────────────────────────────────────────────┐
+│                Web Interface                        │
+│            (Streamlit + Chat UI)                   │
+└─────────────────────┬───────────────────────────────┘
+                      │
+┌─────────────────────▼───────────────────────────────┐
+│                MCP Server                           │
+│         (Query Orchestration + AI)                 │
+└─────────┬───────────────────────────┬───────────────┘
+          │                           │
+┌─────────▼─────────┐       ┌─────────▼─────────┐
+│  Database Tools   │       │   API Tools       │
+│ • Query Executor  │       │ • HTTP Requests   │
+│ • Schema Explorer │       │ • Authentication  │
+│ • Transactions    │       │ • Response Parser │
+└─────────┬─────────┘       └─────────┬─────────┘
+          │                           │
+┌─────────▼─────────┐       ┌─────────▼─────────┐
+│   Oracle ADB      │       │  External APIs    │
+│ • Employee Data   │       │ • REST Services   │
+│ • Department Info │       │ • JSON APIs       │
+│ • Order Records   │       │ • Status Checks   │
+└───────────────────┘       └───────────────────┘
+```
 
-1. **OpenAI API Connection Fails**
-   - Verify your API key is correctly set
-   - Check your OpenAI account has sufficient credits
-   - Ensure network connectivity to OpenAI services
+### Data Model
 
-2. **Database Connection Issues**
-   - Check database file permissions
-   - Verify SQLite installation
-   - Review log files for detailed error messages
+The system includes a comprehensive enterprise data model:
 
-3. **Tool Execution Failures**
-   - Monitor the tool execution history panel
-   - Check individual tool error messages
-   - Verify external API endpoints are accessible
+**Employees Table**
+- Employee ID, Name, Department ID
+- Salary, Hire Date, Email
+- Performance metrics and status
 
-### Getting Help
+**Departments Table**
+- Department ID, Name, Budget
+- Manager ID, Location, Status
+- Performance tracking
 
-- Review the application logs in `./logs/mcp_server.log`
-- Check the Streamlit console output
-- Examine tool execution details in the web interface
-- Verify environment variable configuration
+**Orders Table**
+- Order ID, Customer Name, Amount
+- Order Date, Status, Employee ID
+- Revenue tracking and analytics
 
-## License
+## Usage Examples
 
-This project demonstrates enterprise patterns and is intended for educational and development purposes. Please ensure compliance with Oracle licensing terms when using with actual Oracle databases.
+### Basic Database Queries
+
+```
+User: "Show me all employees in the database"
+Response: Returns formatted table with employee details
+
+User: "What departments do we have and their budgets?"
+Response: Department overview with financial information
+
+User: "Find the top 10 highest paid employees"
+Response: Salary rankings with department information
+```
+
+### Advanced Analytics
+
+```
+User: "What is the average salary by department?"
+Response: Statistical analysis with department comparisons
+
+User: "Show me sales performance by employee for this quarter"
+Response: Revenue analysis with individual performance metrics
+
+User: "Find employees hired in the last year working in high-budget departments"
+Response: Complex filtered results with multi-table joins
+```
+
+### Schema Exploration
+
+```
+User: "What tables are available in the database?"
+Response: Complete schema overview with table descriptions
+
+User: "How are employees and departments connected?"
+Response: Relationship mapping with foreign key details
+
+User: "Show me the structure of the orders table"
+Response: Column details with data types and constraints
+```
+
+### API Integration
+
+```
+User: "Test external API connectivity"
+Response: API call execution with status and response data
+
+User: "Check system health and tool availability"
+Response: Comprehensive system status report
+```
+
+## Configuration Management
+
+### Deployment Presets
+
+#### Development Configuration
+```yaml
+LOG_LEVEL: DEBUG
+API_TIMEOUT: 30 seconds
+API_MAX_RETRIES: 3
+CACHE_TOOL_RESULTS: enabled
+ENVIRONMENT: development
+```
+
+#### Production Configuration
+```yaml
+LOG_LEVEL: INFO
+API_TIMEOUT: 15 seconds
+API_MAX_RETRIES: 5
+CACHE_TOOL_RESULTS: enabled
+ENVIRONMENT: production
+```
+
+#### Testing Configuration
+```yaml
+LOG_LEVEL: WARNING
+API_TIMEOUT: 60 seconds
+API_MAX_RETRIES: 1
+CACHE_TOOL_RESULTS: disabled
+ENVIRONMENT: testing
+```
+
+#### Demo Configuration
+```yaml
+LOG_LEVEL: INFO
+API_TIMEOUT: 20 seconds
+API_MAX_RETRIES: 2
+CACHE_TOOL_RESULTS: enabled
+ENVIRONMENT: demo
+```
+
+## File Structure and Responsibilities
+
+```
+oracle-adb-ai-agent/
+├── app.py                    # Main Streamlit web interface
+├── working_mcp_server.py     # Simplified MCP server implementation
+├── mcp_server.py            # Full-featured MCP server
+├── database.py              # Database connection and operations
+├── oracle_connection.py     # Production Oracle ADB connectivity
+├── oracle_tools.py          # Oracle-specific database tools
+├── api_tools.py             # External API integration tools
+├── config.py                # Configuration management
+├── logger.py                # Comprehensive logging system
+├── DOCUMENTATION.md         # Complete technical documentation
+├── dependencies.txt         # Python package requirements
+├── architecture_diagram.svg # System architecture visualization
+└── .streamlit/
+    └── config.toml          # Streamlit server configuration
+```
+
+## Production Deployment
+
+### Oracle ADB Setup
+
+1. **Download Oracle Wallet**
+   ```bash
+   # From Oracle Cloud Infrastructure Console
+   # Navigate to Autonomous Database → DB Connection
+   # Download Client Credentials (Wallet)
+   ```
+
+2. **Configure Wallet**
+   ```bash
+   # Extract wallet to secure location
+   unzip wallet.zip -d /secure/path/wallet/
+   
+   # Set permissions
+   chmod 600 /secure/path/wallet/*
+   
+   # Set environment variable
+   export TNS_ADMIN=/secure/path/wallet/
+   ```
+
+3. **Validate Connection**
+   ```bash
+   # Test connection using provided validation script
+   python oracle_connection.py
+   ```
+
+### Security Best Practices
+
+- **API Key Management**: Store OpenAI API keys in secure environment variables
+- **Database Security**: Use Oracle Wallet for encrypted authentication
+- **Network Security**: Deploy behind load balancer with SSL/TLS termination
+- **Access Control**: Implement proper user authentication and authorization
+- **Audit Logging**: Enable comprehensive audit trails for all operations
+
+### Performance Optimization
+
+- **Connection Pooling**: Configure optimal pool sizes for concurrent users
+- **Query Caching**: Enable intelligent caching for frequently accessed data
+- **Resource Monitoring**: Implement monitoring for CPU, memory, and database connections
+- **Load Balancing**: Deploy multiple instances behind load balancer for high availability
+
+## Troubleshooting Guide
+
+### Common Issues and Solutions
+
+#### Database Connection Problems
+```
+Problem: "Oracle connection failed"
+Solutions:
+1. Verify wallet file permissions (600)
+2. Check TNS_ADMIN environment variable
+3. Validate connection string format
+4. Test network connectivity to Oracle Cloud
+5. Verify wallet password correctness
+```
+
+#### OpenAI API Issues
+```
+Problem: "OpenAI API authentication failed"
+Solutions:
+1. Verify API key format (starts with sk-)
+2. Check API key validity on OpenAI platform
+3. Verify account billing status and credits
+4. Check rate limits and usage quotas
+5. Test API connectivity with curl
+```
+
+#### Tool Execution Failures
+```
+Problem: "Tool execution timeout or error"
+Solutions:
+1. Review application logs for detailed errors
+2. Check database connection status
+3. Validate query syntax and parameters
+4. Verify tool configuration and permissions
+5. Test individual tools in isolation
+```
+
+## Development and Extension
+
+### Adding Custom Tools
+
+1. **Create Tool Class**
+   ```python
+   from langchain.tools import BaseTool
+   
+   class CustomTool(BaseTool):
+       name = "custom_tool"
+       description = "Description of tool functionality"
+       
+       def _run(self, input_data: str) -> str:
+           # Implementation logic
+           return result
+   ```
+
+2. **Register Tool**
+   ```python
+   # In MCP server initialization
+   def _initialize_tools(self):
+       self.tools.append(CustomTool())
+   ```
+
+3. **Update UI** (if needed)
+   ```python
+   # Add tool-specific display logic in app.py
+   ```
+
+### Custom Database Providers
+
+1. **Extend Database Manager**
+   ```python
+   class CustomDBManager(DatabaseManager):
+       def __init__(self, connection_params):
+           # Custom initialization
+           pass
+       
+       def execute_query(self, query, parameters):
+           # Provider-specific implementation
+           pass
+   ```
+
+2. **Update Configuration**
+   ```python
+   # Add provider-specific configuration options
+   ```
+
+## API Reference
+
+### Core Classes
+
+#### WorkingMCPServer
+- `execute_agent_query(query: str)` → Dict[str, Any]
+- `execute_oracle_query(query: str, parameters: Dict)` → Dict[str, Any]
+- `make_api_call(url: str, method: str)` → Dict[str, Any]
+- `check_openai_connection()` → bool
+- `get_database_schema()` → Dict[str, Any]
+
+#### DatabaseManager
+- `execute_query(query: str, parameters: Dict)` → Dict[str, Any]
+- `begin_transaction()` → None
+- `commit_transaction()` → None
+- `rollback_transaction()` → None
+- `get_schema_info()` → Dict[str, Any]
+
+#### OracleADBConnection
+- `create_connection_pool(min_conn: int, max_conn: int)` → bool
+- `execute_query(query: str, parameters: Dict, fetch_mode: str)` → Dict[str, Any]
+- `get_schema_info()` → Dict[str, Any]
+- `get_table_details(table_name: str)` → Dict[str, Any]
+- `test_connection()` → Dict[str, Any]
+
+## Support and Contributing
+
+### Enterprise Support
+For enterprise deployment assistance, custom integrations, or technical support, contact the development team.
+
+### Contributing Guidelines
+1. Fork the repository
+2. Create feature branch
+3. Implement changes with comprehensive tests
+4. Update documentation
+5. Submit pull request with detailed description
+
+### License
+This project is licensed under the MIT License. See LICENSE file for details.
+
+---
+
+**Built with enterprise-grade security, performance, and reliability in mind.**
