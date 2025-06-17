@@ -202,15 +202,15 @@ def display_tool_execution(execution):
 
 def main():
     st.set_page_config(
-        page_title="Oracle ADB AI Agent",
-        page_icon="🤖",
+        page_title="Oracle ADB MCP AI Agent",
+        page_icon="",
         layout="wide",
         initial_sidebar_state="expanded"
     )
 
     # Header
-    st.title("🤖 Oracle ADB AI Agent")
-    st.markdown("Enterprise AI assistant for database operations and API integrations")
+    st.title("Oracle ADB MCP AI Agent")
+    st.markdown("MCP-powered AI agent for Oracle Autonomous Database operations, API integrations, and cross-cloud management")
 
     # Sidebar Configuration
     with st.sidebar:
@@ -382,9 +382,32 @@ def main():
                                     st.error("Please enter your OpenAI API Key first.")
                                     continue
                                 
-                                # Add to chat
+                                # Add to chat and process immediately
                                 st.session_state.messages.append({"role": "user", "content": example["query"]})
-                                st.rerun()
+                                with st.spinner("Processing your request..."):
+                                    try:
+                                        mcp_server = init_mcp_server(api_key_input)
+                                        result = asyncio.run(mcp_server.execute_agent_query(example["query"]))
+                                        
+                                        # Add assistant response
+                                        assistant_message = {
+                                            "role": "assistant",
+                                            "content": result["response"],
+                                            "tool_executions": result.get("tool_executions", [])
+                                        }
+                                        st.session_state.messages.append(assistant_message)
+                                        
+                                        # Rerun to display the new messages
+                                        st.rerun()
+                                        
+                                    except Exception as e:
+                                        error_msg = f"Error processing request: {str(e)}"
+                                        st.session_state.messages.append({
+                                            "role": "assistant",
+                                            "content": error_msg
+                                        })
+                                        st.rerun()
+                                # st.rerun()
                         
                         with col_info:
                             # Complexity badge
@@ -405,7 +428,7 @@ def main():
         
         # Display architecture diagram
         try:
-            st.image("architecture_diagram.svg", caption="System Architecture Diagram", use_column_width=True)
+            st.image("architecture_diagram.svg", caption="System Architecture Diagram", use_container_width=True)
         except:
             st.markdown("""
             **System Components:**
