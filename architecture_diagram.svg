@@ -1,76 +1,103 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <style>
-      .title { font: bold 20px Arial; fill: #2c3e50; text-anchor: middle; }
-      .label { font: 12px Arial; fill: #2c3e50; text-anchor: middle; }
-      .small-label { font: 10px Arial; fill: #7f8c8d; text-anchor: middle; }
-      .box { fill: #ecf0f1; stroke: #3498db; stroke-width: 2; rx: 5; }
-      .ai-box { fill: #e8f5e8; stroke: #27ae60; stroke-width: 2; rx: 5; }
-      .db-box { fill: #fef9e7; stroke: #f39c12; stroke-width: 2; rx: 5; }
-      .api-box { fill: #ebf3fd; stroke: #3498db; stroke-width: 2; rx: 5; }
-      .arrow { stroke: #2c3e50; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .title { font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; fill: #333; }
+      .header { font-family: Arial, sans-serif; font-size: 16px; font-weight: bold; fill: white; }
+      .text { font-family: Arial, sans-serif; font-size: 12px; fill: white; }
+      .small-text { font-family: Arial, sans-serif; font-size: 10px; fill: white; }
+      .label { font-family: Arial, sans-serif; font-size: 14px; fill: #333; }
     </style>
-    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-      <polygon points="0 0, 10 3.5, 0 7" fill="#2c3e50"/>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f8f9fa"/>
+  
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" class="title">MCP (Model Context Protocol) Architecture</text>
+  
+  <!-- Client Layer -->
+  <rect x="50" y="60" width="700" height="80" rx="10" fill="#4CAF50" stroke="#333" stroke-width="2"/>
+  <text x="400" y="85" text-anchor="middle" class="header">Streamlit Web Interface (Client)</text>
+  <text x="400" y="105" text-anchor="middle" class="text">User Queries • Interactive Dashboard • Real-time Results</text>
+  <text x="400" y="125" text-anchor="middle" class="text">MCP Protocol Communication</text>
+  
+  <!-- MCP Server Core -->
+  <rect x="200" y="180" width="400" height="100" rx="10" fill="#2196F3" stroke="#333" stroke-width="2"/>
+  <text x="400" y="205" text-anchor="middle" class="header">MCP Server Core</text>
+  <text x="400" y="225" text-anchor="middle" class="text">Query Analysis • Tool Orchestration • Response Formatting</text>
+  <text x="400" y="245" text-anchor="middle" class="text">Protocol Compliance • Error Handling • Logging</text>
+  <text x="400" y="265" text-anchor="middle" class="text">Structured Responses • Authentication • Tool Registry</text>
+  
+  <!-- Tool Layer -->
+  <!-- Database Tools -->
+  <rect x="50" y="320" width="180" height="120" rx="10" fill="#FF9800" stroke="#333" stroke-width="2"/>
+  <text x="140" y="345" text-anchor="middle" class="header">Database Tools</text>
+  <text x="140" y="365" text-anchor="middle" class="small-text">Oracle Query Executor</text>
+  <text x="140" y="380" text-anchor="middle" class="small-text">Schema Explorer</text>
+  <text x="140" y="395" text-anchor="middle" class="small-text">Transaction Manager</text>
+  <text x="140" y="410" text-anchor="middle" class="small-text">Connection Health</text>
+  <text x="140" y="425" text-anchor="middle" class="small-text">SQL Generation</text>
+  
+  <!-- API Tools -->
+  <rect x="310" y="320" width="180" height="120" rx="10" fill="#FF9800" stroke="#333" stroke-width="2"/>
+  <text x="400" y="345" text-anchor="middle" class="header">API Tools</text>
+  <text x="400" y="365" text-anchor="middle" class="small-text">HTTP Request Handler</text>
+  <text x="400" y="380" text-anchor="middle" class="small-text">Authentication Manager</text>
+  <text x="400" y="395" text-anchor="middle" class="small-text">Response Analyzer</text>
+  <text x="400" y="410" text-anchor="middle" class="small-text">Error Handler</text>
+  <text x="400" y="425" text-anchor="middle" class="small-text">Rate Limiting</text>
+  
+  <!-- AI Tools -->
+  <rect x="570" y="320" width="180" height="120" rx="10" fill="#607D8B" stroke="#333" stroke-width="2"/>
+  <text x="660" y="345" text-anchor="middle" class="header">AI Integration</text>
+  <text x="660" y="365" text-anchor="middle" class="small-text">OpenAI GPT-4o</text>
+  <text x="660" y="380" text-anchor="middle" class="small-text">Context Management</text>
+  <text x="660" y="395" text-anchor="middle" class="small-text">Query Processing</text>
+  <text x="660" y="410" text-anchor="middle" class="small-text">Response Generation</text>
+  <text x="660" y="425" text-anchor="middle" class="small-text">Token Management</text>
+  
+  <!-- Data Sources Layer -->
+  <!-- Oracle Database -->
+  <rect x="50" y="480" width="200" height="80" rx="10" fill="#9C27B0" stroke="#333" stroke-width="2"/>
+  <text x="150" y="505" text-anchor="middle" class="header">Oracle ADB</text>
+  <text x="150" y="525" text-anchor="middle" class="text">Wallet Authentication</text>
+  <text x="150" y="545" text-anchor="middle" class="text">Sample Data • Schema</text>
+  
+  <!-- External APIs -->
+  <rect x="300" y="480" width="200" height="80" rx="10" fill="#F44336" stroke="#333" stroke-width="2"/>
+  <text x="400" y="505" text-anchor="middle" class="header">External APIs</text>
+  <text x="400" y="525" text-anchor="middle" class="text">REST Services</text>
+  <text x="400" y="545" text-anchor="middle" class="text">JSON Responses</text>
+  
+  <!-- OpenAI API -->
+  <rect x="550" y="480" width="200" height="80" rx="10" fill="#607D8B" stroke="#333" stroke-width="2"/>
+  <text x="650" y="505" text-anchor="middle" class="header">OpenAI API</text>
+  <text x="650" y="525" text-anchor="middle" class="text">GPT-4o Model</text>
+  <text x="650" y="545" text-anchor="middle" class="text">Chat Completions</text>
+  
+  <!-- Connection Arrows -->
+  <!-- Client to MCP -->
+  <line x1="400" y1="140" x2="400" y2="180" stroke="#333" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- MCP to Tools -->
+  <line x1="280" y1="280" x2="140" y2="320" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="400" y1="280" x2="400" y2="320" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="520" y1="280" x2="660" y2="320" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Tools to Data Sources -->
+  <line x1="140" y1="440" x2="150" y2="480" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="400" y1="440" x2="400" y2="480" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="660" y1="440" x2="650" y2="480" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+            refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
     </marker>
   </defs>
   
-  <text x="400" y="30" class="title">Oracle ADB AI Agent Architecture</text>
-  <text x="400" y="50" class="label">Enterprise AI Gateway with Database Integration</text>
-  
-  <!-- User Interface Layer -->
-  <rect x="50" y="80" width="700" height="60" class="box"/>
-  <text x="400" y="105" class="label">Streamlit Web Interface</text>
-  <text x="400" y="120" class="small-label">Chat, Configuration, Monitoring, Examples</text>
-  
-  <!-- MCP Server Layer -->
-  <rect x="50" y="160" width="700" height="60" class="ai-box"/>
-  <text x="400" y="185" class="label">MCP Server + OpenAI GPT-4o</text>
-  <text x="400" y="200" class="small-label">Query Orchestration &amp; AI Responses</text>
-  
-  <!-- Tools Layer -->
-  <rect x="50" y="240" width="200" height="50" class="db-box"/>
-  <text x="150" y="260" class="label">Oracle Queries</text>
-  <text x="150" y="275" class="small-label">SQL Execution</text>
-  
-  <rect x="300" y="240" width="200" height="50" class="db-box"/>
-  <text x="400" y="260" class="label">Schema Explorer</text>
-  <text x="400" y="275" class="small-label">Metadata Discovery</text>
-  
-  <rect x="550" y="240" width="200" height="50" class="api-box"/>
-  <text x="650" y="260" class="label">API Caller</text>
-  <text x="650" y="275" class="small-label">External Services</text>
-  
-  <!-- Data Layer -->
-  <rect x="50" y="320" width="300" height="50" class="db-box"/>
-  <text x="200" y="340" class="label">Oracle ADB Simulation</text>
-  <text x="200" y="355" class="small-label">Enterprise Data (SQLite)</text>
-  
-  <rect x="400" y="320" width="350" height="50" class="api-box"/>
-  <text x="575" y="340" class="label">External APIs &amp; Configuration</text>
-  <text x="575" y="355" class="small-label">REST Services, Environment Vars</text>
-  
-  <!-- Configuration Layer -->
-  <rect x="50" y="400" width="700" height="80" class="box"/>
-  <text x="400" y="425" class="label">Configuration Management</text>
-  <text x="200" y="445" class="small-label">Development</text>
-  <text x="350" y="445" class="small-label">Production</text>
-  <text x="450" y="445" class="small-label">Testing</text>
-  <text x="600" y="445" class="small-label">Demo</text>
-  <text x="400" y="465" class="small-label">One-Click Deployment Presets</text>
-  
-  <!-- Arrows -->
-  <line x1="400" y1="140" x2="400" y2="160" class="arrow"/>
-  <line x1="400" y1="220" x2="150" y2="240" class="arrow"/>
-  <line x1="400" y1="220" x2="400" y2="240" class="arrow"/>
-  <line x1="400" y1="220" x2="650" y2="240" class="arrow"/>
-  <line x1="150" y1="290" x2="200" y2="320" class="arrow"/>
-  <line x1="650" y1="290" x2="575" y2="320" class="arrow"/>
-  <line x1="400" y1="370" x2="400" y2="400" class="arrow"/>
-  
-  <!-- Labels for connections -->
-  <text x="320" y="235" class="small-label">Tool Selection</text>
-  <text x="400" y="385" class="small-label">Configuration</text>
-  
+  <!-- Protocol Features -->
+  <rect x="50" y="580" width="700" height="15" fill="#E0E0E0" stroke="#333" stroke-width="1"/>
+  <text x="400" y="592" text-anchor="middle" class="label">MCP Protocol: Tool Registration • Structured Responses • Error Handling • Authentication • Multi-tool Orchestration</text>
 </svg>

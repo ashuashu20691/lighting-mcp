@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import Dict, Any, List
 import pandas as pd
 
-from working_mcp_server import WorkingMCPServer
+from working_mcp_server import MCP  # Updated import for MCP compatibility
 
 # Configuration presets
 DEPLOYMENT_PRESETS = {
@@ -136,12 +136,12 @@ EXAMPLE_QUERIES = [
 ]
 
 @st.cache_resource
-def init_mcp_server(api_key=None):
-    """Initialize MCP server with optional API key"""
+def init_mcp(api_key=None):
+    """Initialize MCP with optional API key"""
     if api_key:
         import os
         os.environ["OPENAI_API_KEY"] = api_key
-    return WorkingMCPServer()
+    return MCP()  # Updated to use MCP class
 
 def apply_preset_config(preset_name):
     """Apply configuration preset"""
@@ -225,6 +225,7 @@ def main():
         )
         
         if api_key_input:
+            MCP()  # Updated to use MCP class
             st.success("✅ API Key provided")
         else:
             st.warning("⚠️ API Key required for AI responses")
@@ -257,15 +258,15 @@ def main():
         # System Status
         st.subheader("📊 System Status")
         if api_key_input:
-            mcp_server = init_mcp_server(api_key_input)
+            mcp = init_mcp(api_key_input)
             
             # Connection status
-            openai_status = mcp_server.check_openai_connection()
-            db_status = mcp_server.check_database_connection()
+            openai_status = mcp.check_openai_connection()
+            db_status = mcp.check_database_connection()
             
             st.metric("OpenAI API", "Connected" if openai_status else "Disconnected")
             st.metric("Database", "Connected" if db_status else "Disconnected")
-            st.metric("Available Tools", len(mcp_server.get_available_tools()))
+            st.metric("Available Tools", len(mcp.get_available_tools()))
         else:
             st.info("Enter API key to check status")
     
@@ -311,12 +312,12 @@ def main():
             with st.chat_message("user"):
                 st.write(prompt)
             
-            # Process with MCP server
+            # Process with MCP
             with st.chat_message("assistant"):
                 with st.spinner("Processing your request..."):
                     try:
-                        mcp_server = init_mcp_server(api_key_input)
-                        result = asyncio.run(mcp_server.execute_agent_query(prompt))
+                        mcp = init_mcp(api_key_input)
+                        result = asyncio.run(mcp.execute_agent_query(prompt))
                         
                         # Display response
                         st.write(result["response"])
@@ -386,8 +387,8 @@ def main():
                                 st.session_state.messages.append({"role": "user", "content": example["query"]})
                                 with st.spinner("Processing your request..."):
                                     try:
-                                        mcp_server = init_mcp_server(api_key_input)
-                                        result = asyncio.run(mcp_server.execute_agent_query(example["query"]))
+                                        mcp = init_mcp(api_key_input)
+                                        result = asyncio.run(mcp.execute_agent_query(example["query"]))
                                         
                                         # Add assistant response
                                         assistant_message = {
@@ -407,7 +408,6 @@ def main():
                                             "content": error_msg
                                         })
                                         st.rerun()
-                                # st.rerun()
                         
                         with col_info:
                             # Complexity badge

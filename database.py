@@ -43,9 +43,9 @@ class DatabaseManager:
         self.dsn = os.getenv("ORACLE_DSN")  # e.g., "testmcp_tp"
         self.wallet_path = os.getenv("ORACLE_WALLET_LOCATION")
         self.wallet_password = os.getenv("ORACLE_WALLET_PASSWORD")
-        
-
-        # Sanity check for required env vars
+        self.pool_lock = threading.Lock()
+        self.transaction_connections = {}
+        self.connection_pool = {}   
         if not all([self.username, self.password, self.dsn, self.wallet_path]):
             raise OracleConnectionError("Missing required Oracle DB environment variables")
 
