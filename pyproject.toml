@@ -1,0 +1,18 @@
+[project]
+name = "repl-nix-workspace"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.11"
+dependencies = [
+    "aiohttp>=3.12.12",
+    "langchain-community>=0.3.25",
+    "langchain>=0.3.25",
+    "langchain-openai>=0.3.22",
+    "openai>=1.86.0",
+    "pandas>=2.3.0",
+    "pydantic>=2.11.6",
+    "requests>=2.32.4",
+    "streamlit>=1.45.1",
+    "langchain-core>=0.3.65",
+    "langchain-text-splitters>=0.3.8",
+]
